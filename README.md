@@ -68,12 +68,16 @@ Follow these steps to set up and run your OpenStack MCP server and connect it wi
 2.  **Install dependencies:**
 
     uv init mcp-server
+    
     cd mcp-server
+    
     uv add "mcp[cli]"
     
-
-    (Ensure `requirements.txt` includes necessary libraries like `openstacksdk`, `mcp-python-sdk`, etc.)
-
+    dependencies = [
+        "fastapi>=0.116.0",
+        "mcp[cli]>=1.10.1",
+        "openstacksdk>=4.6.0",
+        "uvicorn>=0.35.0",
 ### OpenStack Configuration
 
 The MCP server needs to be configured with your OpenStack credentials. This can typically be done via environment variables or a configuration file.
@@ -101,5 +105,7 @@ The MCP server needs to be configured with your OpenStack credentials. This can 
 
 Start the MCP server using the provided script:
 
-```bash
-python mcp_server.py serve
+   uv run server.py
+
+
+
