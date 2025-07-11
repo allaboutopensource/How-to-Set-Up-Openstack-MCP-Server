@@ -110,4 +110,6 @@ Start the MCP server using the provided script:
    uv run server.py
 
 
+<img width="973" height="326" alt="image" src="https://github.com/user-attachments/assets/803c5128-1798-40a4-a98c-2ce056b7da67" />
+
 
