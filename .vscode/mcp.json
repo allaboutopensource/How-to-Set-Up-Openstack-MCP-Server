@@ -4,7 +4,7 @@
             "type": "stdio",
                   "command": "/opt/homebrew/bin/uv",
                   "args": [
-                    "--directory","/Users/sunilka/Documents/VSS-Code-Repo/mcp-server/mcp-server-project",
+                    "--directory","/Users/itops/Documents/VSS-Code-Repo/mcp-server/mcp-server-project",
                     "run",
                     "server.py"
            ]
