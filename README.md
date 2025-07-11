@@ -109,22 +109,4 @@ Start the MCP server using the provided script:
 
    uv run server.py
 
-Tools, Resources, and Prompts
-This MCP server exposes the following tools:
-list_projects(): Lists all projects in the configured OpenStack environment.
-list_servers(): Lists all server instances (VMs) in the configured OpenStack environment, including their status, IP addresses, etc.
-create_server(name, image, flavor, network, key_pair=None): Creates a new server instance.
-name (str): Desired name for the new server.
-image (str): Name or ID of the image to use.
-flavor (str): Name or ID of the flavor (VM size) to use.
-network (str): Name or ID of the network to attach the server to.
-key_pair (str, optional): Name of the SSH key pair to use for the server.
-delete_server(server_id): Deletes a specific server instance.
-server_id (str): ID of the server to delete.
-find_vm_by_ip(ip_address): Finds a VM based on its IP address.
-ip_address (str): The IP address of the VM to find.
-
-
-<img width="973" height="326" alt="image" src="https://github.com/user-attachments/assets/803c5128-1798-40a4-a98c-2ce056b7da67" />
-
-
+<img width="958" height="328" alt="image" src="https://github.com/user-attachments/assets/79669468-f739-47ce-8c4d-1ea2f2239226" />
