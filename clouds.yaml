@@ -9,12 +9,12 @@
 clouds:
   openstack:
     auth:
-      auth_url: https://iadosvip01.ece.ellucian.com:5000/v3
-      username: "sunilka"
-      password: "Citrix#24041988"  # Replace with your actual password
-      project_id: 7b9b3c86a8ab4a6e9a1cdc8bb07ae190
-      project_name: "IT Admin"
-      user_domain_name: "Corp"
-    region_name: "iadprod"
+      auth_url: https://vip01.ai.com:5000/v3
+      username: "devops"
+      password: "hello1234"  # Replace with your actual password
+      project_id: 7bsdfdfsdf1cdc8bdfxdfgfgdfgh
+      project_name: "MCP"
+      user_domain_name: "Cloud"
+    region_name: "US-east-1"
     interface: "public"
     identity_api_version: 3
