@@ -5,21 +5,15 @@ import argparse
 import re
 import os
 import openstack
-import sys
 from fastapi import FastAPI, Request
 from fastapi.responses import StreamingResponse
-import time
-import asyncio
-import random
-
-
 
 # Create an MCP server
 mcp = FastMCP(name="openstack-mcp", port=8080, debug=True)
 
 # Initialize connection to OpenStack
 conn = openstack.connect(cloud='openstack')
-cloud2 = conn.connect_as_project('7b9b3c86a8ab4a6e9a1cdc8bb07ae190')
+cloud2 = conn.connect_as_project('asedf32q4fdsfsdfsfdfdsfgae190')
 
 # Resource: Get openstack project Count
 @mcp.resource("openstack://Projects-Count")
