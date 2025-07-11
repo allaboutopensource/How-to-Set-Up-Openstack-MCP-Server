@@ -1,5 +1,7 @@
 # OpenStack Model Context Protocol (MCP) Server
 
+<img width="1475" height="709" alt="image" src="https://github.com/user-attachments/assets/c7395a12-8494-4e52-af87-06f55faf1ae9" />
+
 ## Table of Contents
 
 - [Introduction](#introduction)
