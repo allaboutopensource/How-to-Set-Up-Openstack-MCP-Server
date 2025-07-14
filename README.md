@@ -75,6 +75,9 @@ Follow these steps to set up and run your OpenStack MCP server and connect it wi
     
     uv add "mcp[cli]"
     
+    uv pip install openstacksdk
+
+    uv pip install fastapi
     dependencies = [
         "fastapi>=0.116.0",
         "mcp[cli]>=1.10.1",
