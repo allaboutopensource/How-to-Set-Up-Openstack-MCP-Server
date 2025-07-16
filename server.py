@@ -31,31 +31,17 @@ def Project_Count() -> list:
      return("Number of projects: ", num_projects)
 
 @mcp.prompt(title="Openstack Server Creation")
-def Openstack_Server_Creation() -> base.Prompt:
-    """Prompt for creating an OpenStack server"""
-    return base.Prompt(
-        "OpenStack Server Creation",
-        description="Create an OpenStack server with the specified parameters.",
-        fields=[
-            base.Field(
-                "server_name",
-                type=base.FieldType.STRING,
-                description="Enter the name of the server to be created.",
-                example="my_oracle_server"
-            ),
-            base.Field(
-                "flavor_name",
-                type=base.FieldType.STRING,
-                description="Enter the flavor of the server (e.g., m1.medium).",
-                example="m1.medium"
-            ),
-            base.Field(
-                "image_name",
-                type=base.FieldType.STRING,
-                description="Enter the name of the image to be used for the server.",
-                example="Ellucian Oracle Linux 8.3 20230330124320"      
-            )
-        ],
+def create_server_prompt(
+    server_name: str,
+    flavor: str = "m1.medium",
+    network_name: str = "it-admin",
+    image_name: str = "Ellucian Oracle Linux 8.3 20230330124320"
+) -> str:
+    """Generate a Prompt to Create a server Instance on OpenStack Cloud"""
+
+    return (
+        f'Create a server named "{server_name}" on OpenStack cloud with flavor "{flavor}", '
+        f'connected to network "{network_name}", and using image "{image_name}".'
     )
 
 # Resource: List all OpenStack images
