@@ -1,19 +1,31 @@
 # server.py
 from mcp.server.fastmcp import FastMCP
 from mcp.server.fastmcp.prompts import base
-import argparse
-import re
-import os
+import uvicorn
 import openstack
 from fastapi import FastAPI, Request
 from fastapi.responses import StreamingResponse
+from fastapi.responses import JSONResponse
 
 # Create an MCP server
-mcp = FastMCP(name="openstack-mcp", port=8080, debug=True)
+mcp = FastMCP(name="openstack-mcp", debug=True, system_prompt=base, port=8001)
+app= FastAPI(title="Openstack MCP API")
 
-# Initialize connection to OpenStack
+
+@mcp.tool()
+def greet(name: str) -> str:
+    return f"Hello, {name}!"
+
+@app.get("/mcp")
+def greet_user(name: str):
+    result = greet(name)
+    # Return the result as a JSON response  
+    return {result}
+
+
+    # Initialize connection to OpenStack
 conn = openstack.connect(cloud='openstack')
-cloud2 = conn.connect_as_project('asedf32q4fdsfsdfsfdfdsfgae190')
+cloud2 = conn.connect_as_project('3434dfg324ghjkhjkhasdf234234345')
 
 # Resource: Get openstack project Count
 @mcp.resource("openstack://Projects-Count")
@@ -23,6 +35,10 @@ def Project_Count() -> list:
      return("Number of projects: ", num_projects)
 
 # Tool: Get openstack project Count
+@app.get("/")
+def health():
+    return {"message": "MCP server is running fine"}
+
 
 @mcp.tool()
 def Project_Count() -> list:
@@ -30,12 +46,18 @@ def Project_Count() -> list:
      num_projects = len(list(projects))
      return("Number of projects: ", num_projects)
 
+@app.get("/project-count")
+async def get_project_count():
+    # Call the tool function and return its result wrapped in a JSON response
+    result = Project_Count()
+    return JSONResponse(content=result)
+
 @mcp.prompt(title="Openstack Server Creation")
 def create_server_prompt(
     server_name: str,
     flavor: str = "m1.medium",
-    network_name: str = "it-admin",
-    image_name: str = "Ellucian Oracle Linux 8.3 20230330124320"
+    network_name: str = "admin",
+    image_name: str = "Oracle Linux 8.3 "
 ) -> str:
     """Generate a Prompt to Create a server Instance on OpenStack Cloud"""
 
@@ -43,6 +65,7 @@ def create_server_prompt(
         f'Create a server named "{server_name}" on OpenStack cloud with flavor "{flavor}", '
         f'connected to network "{network_name}", and using image "{image_name}".'
     )
+
 
 # Resource: List all OpenStack images
 @mcp.resource("openstack://images")
@@ -138,14 +161,19 @@ def list_servers_count() -> dict:
 @mcp.tool()
 def get_server_details(server_name: str) -> dict:
         """Get details of a server by its name"""
-        for server in cloud2.compute.servers():
-            if server.name == server_name:
-                return {
+        projects = cloud2.identity.projects()
+        for project in projects:
+            servers = cloud2.compute.servers(all_projects=True, project_id=project.id, timeout=60)
+            for server in servers:
+               if server.name == server_name:
+                 return {
                     "id": server.id,
                     "name": server.name,
                     "status": server.status,
                     "flavor": server.flavor['original_name'] if 'original_name' in server.flavor else server.flavor['id'],
                     "addresses": server.addresses,
+                    "project_name": project.name,
+                    "created_at": server.created_at,
                 }
         return {}
 
@@ -171,11 +199,11 @@ def get_instance_name_by_floating_ip(floating_ip: str) -> dict:
 
 # Tool: Create a new server with specified name, flavor, and image
 @mcp.tool()
-def create_server(server_name: str, flavor_name: str, image_name: str, network_name:str) -> dict:
+def create_server(server_name: str, flavor_name: str, image_name: str, network_name: str) -> dict:
         """Create a new server with the specified name, flavor, and image"""
         flavor = cloud2.compute.find_flavor(flavor_name)
         image = cloud2.compute.find_image(image_name)
-        network = cloud2.network.find_network('fake_dmz')  # Replace 'network_name' with your actual network name
+        network = cloud2.network.find_network(network_name)  
         if not flavor or not image:
             return {"error": "Flavor or image not found"}
         
@@ -188,6 +216,19 @@ def create_server(server_name: str, flavor_name: str, image_name: str, network_n
         )
         return {"id": server.id, "name": server.name, "status": server.status}  
 
+
+@app.post("/create-server")
+
+def create_server_endpoint(
+    server_name: str,
+    flavor_name: str,
+    image_name: str,
+    network_name: str
+):
+    result = create_server(server_name, flavor_name, image_name, network_name)
+    status_code = 400 if "error" in result else 200
+    return JSONResponse(content=result, status_code=status_code)
+
 # Tool: Delete a server
 
 @mcp.tool()
@@ -198,8 +239,17 @@ def delete_server(server_name: str) -> dict:
                 cloud2.compute.delete_server(server.id)
                 return {"status": "deleted", "name": server_name}
         return {"error": "Server not found"}
+@app.post("/delete-server")
+def delete_server_endpoint(
+    server_name: str,
+):
+    result = delete_server(server_name)
+    status_code = 400 if "error" in result else 200
+    return JSONResponse(content=result, status_code=status_code)
+
 
 
 if __name__ == "__main__":
     # Initialize and run the server
-    mcp.run(transport='stdio')
+        uvicorn.run(app, host="0.0.0.0", port=8000, log_level="debug")
+    
