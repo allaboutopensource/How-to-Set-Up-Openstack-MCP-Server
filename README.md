@@ -120,6 +120,8 @@ To add this MCP server to the MCP client like Claude
 
 
 {
+
+
   "mcpServers": {
     "openstack-mcp": {
       "command": "/opt/homebrew/bin/uv",
@@ -128,9 +130,7 @@ To add this MCP server to the MCP client like Claude
         "/Users/itops/Documents/VSS-Code-Repo/mcp-server/openstack-mcp-server",
         "run",
         "server.py"
-        
       ]
-      
     }
   }
 }
@@ -141,11 +141,15 @@ To add this MCP server to the MCP client like Claude
 
 
 {
+
+
     "servers": {
         "my-mcp-server-06c11a73": {
             "url": "http://190.214.135.222:8000/"
         }
     }
+
+    
 }
 
 
