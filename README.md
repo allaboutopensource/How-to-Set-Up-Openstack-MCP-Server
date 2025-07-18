@@ -125,6 +125,8 @@ To add this MCP server to the MCP client like Claude
 
 
   "mcpServers": {
+
+  
     "openstack-mcp": {
       "command": "/opt/homebrew/bin/uv",
       "args": [
@@ -132,6 +134,8 @@ To add this MCP server to the MCP client like Claude
         "/Users/itops/Documents/VSS-Code-Repo/mcp-server/openstack-mcp-server",
         "run",
         "server.py"
+
+        
       ]
     }
   }
@@ -139,6 +143,8 @@ To add this MCP server to the MCP client like Claude
 
   
 }
+
+
 
 
 **Visual Studio code MCP server.json which is under .vscode:
