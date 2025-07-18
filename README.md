@@ -119,30 +119,8 @@ To add this MCP server to the MCP client like Claude
   Claude desktop.json
 ============================
 
-{
+<img width="606" height="231" alt="image" src="https://github.com/user-attachments/assets/7fed9651-bc5b-4e67-bffe-5dfdd457f04b" />
 
-
-
-
-  "mcpServers": {
-
-  
-    "openstack-mcp": {
-      "command": "/opt/homebrew/bin/uv",
-      "args": [
-        "--directory",
-        "/Users/itops/Documents/VSS-Code-Repo/mcp-server/openstack-mcp-server",
-        "run",
-        "server.py"
-
-        
-      ]
-    }
-  }
-
-
-  
-}
 
 
 
