@@ -110,6 +110,36 @@ The MCP server needs to be configured with your OpenStack credentials. This can 
 
 Start the MCP server using the provided script:
 
-   uv run server.py
+   uv run server.py 
+
+To add this MCP server to the MCP client like Claude
+
+  Claude desktop.json
+============================
+{
+  "mcpServers": {
+    "openstack-mcp": {
+      "command": "/opt/homebrew/bin/uv",
+      "args": [
+        "--directory",
+        "/Users/itops/Documents/VSS-Code-Repo/mcp-server/openstack-mcp-server",
+        "run",
+        "server.py"
+      ]
+    }
+  }
+}
+
+
+**Visual Studio code MCP server.json which is under .vscode:
+**
+{
+    "servers": {
+        "my-mcp-server-06c11a73": {
+            "url": "http://190.214.135.222:8000/"
+        }
+    }
+}
+
 
 <img width="958" height="328" alt="image" src="https://github.com/user-attachments/assets/79669468-f739-47ce-8c4d-1ea2f2239226" />
