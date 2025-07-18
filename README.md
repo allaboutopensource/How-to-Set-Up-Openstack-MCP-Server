@@ -112,14 +112,16 @@ Start the MCP server using the provided script:
 
    uv run server.py 
 
+
+
 To add this MCP server to the MCP client like Claude
 
   Claude desktop.json
 ============================
 
-
-
 {
+
+
 
 
   "mcpServers": {
