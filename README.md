@@ -116,18 +116,31 @@ To add this MCP server to the MCP client like Claude
 
   Claude desktop.json
 ============================
+
 {
+
   "mcpServers": {
+  
     "openstack-mcp": {
+    
       "command": "/opt/homebrew/bin/uv",
+      
       "args": [
+      
         "--directory",
+        
         "/Users/itops/Documents/VSS-Code-Repo/mcp-server/openstack-mcp-server",
+        
         "run",
+        
         "server.py"
+        
       ]
+      
     }
+    
   }
+  
 }
 
 
