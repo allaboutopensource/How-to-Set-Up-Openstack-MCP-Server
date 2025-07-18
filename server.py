@@ -11,6 +11,9 @@ from fastapi.responses import JSONResponse
 mcp = FastMCP(name="openstack-mcp", debug=True, system_prompt=base, port=8001)
 app= FastAPI(title="Openstack MCP API")
 
+    # Initialize connection to OpenStack
+conn = openstack.connect(cloud='openstack')
+cloud2 = conn.connect_as_project('3434dfg324ghjkhjkhasdf234234345')
 
 @mcp.tool()
 def greet(name: str) -> str:
@@ -22,10 +25,21 @@ def greet_user(name: str):
     # Return the result as a JSON response  
     return {result}
 
+class ToolRequest(BaseModel):
+    action: str | None = None
 
-    # Initialize connection to OpenStack
-conn = openstack.connect(cloud='openstack')
-cloud2 = conn.connect_as_project('3434dfg324ghjkhjkhasdf234234345')
+@app.post("/")
+async def handle_post(request: ToolRequest):
+    return {
+        "tools": [
+            "project-count", "create-server", "delete-server",
+            "list-servers-count", "list-servers-in-project",
+            "list-servers-count-in-project", "get-server-details",
+            "get-instance-name-by-floating-ip", "list-images",
+            "list-networks", "list-flavors", "list-projects"
+        ]
+    }
+
 
 # Resource: Get openstack project Count
 @mcp.resource("openstack://Projects-Count")
@@ -39,18 +53,46 @@ def Project_Count() -> list:
 def health():
     return {"message": "MCP server is running fine"}
 
+@app.get("/list-images")
+async def list_Image():
+    # Call the tool function and return its result wrapped in a JSON response
+    data = List_Images()
+    result = json.dumps(data)
+    return JSONResponse(content=result)
 
-@mcp.tool()
-def Project_Count() -> list:
-     projects = cloud2.identity.projects()
-     num_projects = len(list(projects))
-     return("Number of projects: ", num_projects)
+@app.get("/list-network")
+async def List_nw():
+    # Call the tool function and return its result wrapped in a JSON response
+    data = List_Networks()
+    result = json.dumps(data)
+    return JSONResponse(content=result)
+
+
+@app.get("/list-flavors")
+async def List_fl():
+    # Call the tool function and return its result wrapped in a JSON response
+    data = List_Flavors()
+    result = json.dumps(data)
+    return JSONResponse(content=result)
+
+@app.get("/list-projects")
+async def list_Project():
+    # Call the tool function and return its result wrapped in a JSON response
+    data = List_Projects()
+    result = json.dumps(data)
+    return JSONResponse(content=result)
 
 @app.get("/project-count")
 async def get_project_count():
     # Call the tool function and return its result wrapped in a JSON response
     result = Project_Count()
     return JSONResponse(content=result)
+
+@mcp.tool()
+def Project_Count() -> list:
+     projects = cloud2.identity.projects()
+     num_projects = len(list(projects))
+     return("Number of projects: ", num_projects)
 
 @mcp.prompt(title="Openstack Server Creation")
 def create_server_prompt(
