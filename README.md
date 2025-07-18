@@ -135,6 +135,9 @@ To add this MCP server to the MCP client like Claude
       ]
     }
   }
+
+
+  
 }
 
 
