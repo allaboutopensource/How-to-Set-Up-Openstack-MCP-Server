@@ -1,5 +1,5 @@
 # Use an official Python runtime as a parent image
-FROM python:3.13-slim
+FROM python:3.14-rc-alpine3.20
 
 RUN apt-get update && apt-get install -y curl build-essential gcc && rm -rf /var/lib/apt/lists/*
 
